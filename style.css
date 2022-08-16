@@ -1,0 +1,13 @@
+
+.btn {
+  padding: 1rem;
+}
+
+.btn.active {
+  background-color: red;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
