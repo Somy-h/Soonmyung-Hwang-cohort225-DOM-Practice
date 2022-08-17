@@ -1,5 +1,4 @@
 
-
 //----------------------------------------------------------------
 // Searching Elements : element.closest, element.match, getElement*, querySelector*
 // 1. elem.closest(cssSelector) => the nearest ancestor
@@ -8,15 +7,29 @@ let chapter = document.querySelector('.chapter');
 chapter.closest('.contents').style.backgroundColor = 'black'; // select ancestor <div></div>
 chapter.closest('.contents').style.color = 'white';
 
+
+// creating ul tag by createElement()
+let bookUl = document.querySelector('.book');
+for (let i = 0; i < 10; i++) {
+  let li = document.createElement('li');
+  li.innerText = 'Chapter ' + (i + 4) + ' created by createElement()';
+  li.classList.add('chapter');
+  if (i % 2 === 0) { 
+    li.classList.add('highlight');
+  }
+  bookUl.appendChild(li);
+}
+
+
 // 2. matches with link ending with "com"
-for (let elem of document.querySelectorAll('.chapter')) {
-  if (elem.firstChild.matches('a[href$="com"]')) {
-    elem.firstChild.style.color = 'white';
+for (let elem of document.querySelectorAll('.chapter-link')) {
+  if (elem.matches('a[href$="com"]')) {
+    elem.style.color = 'red';
   }
 } 
 
+
 // 3. Search by ID
-document.getElementById("somy-link").style.color='red';
 const btnHeaderStyle = document.getElementById("btn-header-style");
 btnHeaderStyle.addEventListener("click", headerStyle);
 
@@ -33,9 +46,17 @@ function headerStyle() {
   btnHeaderStyle.classList.toggle('active');
 }
 
+
 // console.log vs. console.dir
 console.log(document.body); // show the element DOM tree
 console.dir(document.body); // show the element as a DOM object
+
+
+// sytle.cssText
+document.getElementById('blank-p').style.cssText = `background-color: pink;
+      text-align: center;
+      padding: 0.5rem;`;
+document.getElementById('blank-p').style.color = 'blue';
 
 
 // 5. Search by querySelector
@@ -50,6 +71,7 @@ document.querySelector('#btn-createHTML').addEventListener('click', () => {
 });
 document.querySelector('#blank-div').style.margin = "1rem 0";
 
+
 // DOM Node class
 console.log(document.body instanceof HTMLBodyElement); // true
 console.log(document.body instanceof HTMLElement); // true
@@ -58,6 +80,7 @@ console.log(document.body instanceof Node); // true
 console.log(document.body instanceof EventTarget); // true => root "abstract" class for everything
 console.log(document.body instanceof Document); // false
 console.log(document.body instanceof CharacterData); // false
+
 
 // nodeType - document, element, text
 // nodeName
@@ -68,17 +91,20 @@ console.log(document.body.firstChild.nodeName); // #comment
 console.log(document.nodeType); // 9 -> document
 console.log(document.nodeName); // #document
 
+
 // nextSibling 
 console.log(document.body.firstChild.nextSibling.nodeType); // 3 -> text
 console.log(document.body.firstChild.nextSibling.nodeName); // #text
 console.log(document.body.firstChild.nextSibling.nextSibling.nodeType); // 1 -> element
 console.log(document.body.firstChild.nextSibling.nextSibling.nodeName); // H1
 
+
 // firstElementChild with hidden property
 // make blinking with hidden property : same effect with style="display: none"
 const h1Elm = document.body.firstChild.nextSibling.nextSibling.firstElementChild; // span
 console.log(h1Elm.nodeName); // SPAN
 setInterval( () => h1Elm.hidden = ! h1Elm.hidden, 1000); // every 1sec blinking
+
 
 // attributes of element
 // set attribute
@@ -88,10 +114,12 @@ btnHeaderStyle.setAttribute('style', 'border-radius: 20px');
 for (let attr of btnHeaderStyle.attributes) {
   console.log(`Button attributes: ${attr.name} = ${attr.value}`); // id, class, test, style
 }
+
 // check for existence & remove of attribute
 if (btnHeaderStyle.hasAttribute('test')) {
   btnHeaderStyle.removeAttribute('test');  // remove attribute
 }
+
 // get attributes
 for (let attr of btnHeaderStyle.attributes) {
   console.log(`Button attributes: ${attr.name} = ${attr.value}`); // id, class, style
@@ -114,7 +142,7 @@ document.getElementById('btn-createElms').addEventListener('click', () => {
   document.body.appendChild(divElm);
 
   // insert before() and after()
-  divElm.before('inserted div.before', document.createElement('hr'));
+  divElm.before('inserted div.before. Will be removed in 5sec -->', document.createElement('hr'));
   divElm.after('inserted div.after', document.createElement('hr'));
 
   // remove node
@@ -122,15 +150,10 @@ document.getElementById('btn-createElms').addEventListener('click', () => {
   setTimeout(() => divElm.remove(), 5000); // delete div in 5sec => before, after parts are left
 });
 
-// sytle.cssText
-document.getElementById('blank-p').style.cssText = `background-color: yellow;
-      text-align: center;
-      padding: 0.5rem;`;
-document.getElementById('blank-p').style.color = 'blue';
 
 // getComputedStyle()
 console.log('style node:' + document.body.firstChild.nextSibling.nextSibling.nodeName); // H1 
-console.log('sytle.color:' + document.body.firstChild.nextSibling.nextSibling.style.color + 'should use getComputedStyle()'); // H1 
+console.log('sytle.color:' + document.body.firstChild.nextSibling.nextSibling.style.color + 'value is null. it should use getComputedStyle()'); // H1 
 // SHOULD use getComputedStyle() instead of style.color
 console.log('getComputedSytle().color:' + getComputedStyle(document.body.firstChild.nextSibling.nextSibling).color); // H1 
 

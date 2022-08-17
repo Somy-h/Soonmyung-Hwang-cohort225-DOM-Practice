@@ -11,3 +11,8 @@
 a {
   text-decoration: none;
 }
+
+.chapter.highlight {
+  background-color: yellow;
+  color: black;
+}
